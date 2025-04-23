@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: carro-query-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: carro_query
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database/.data/:/var/lib/mysql
+    networks:
+      - carro-query-network
+
+  app:
+    build: .
+    container_name: carro-query-app
+    depends_on:
+      - mysql
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=mysql://root:root@mysql:3306/carro_query
+    command: tail -f /dev/null
+    networks:
+      - carro-query-network
+
+networks:
+  carro-query-network:
+    driver: bridge

@@ -1,0 +1,9 @@
+__pycache__/
+
+# IDE
+.idea/
+.vscode/
+
+# Database
+database/.data/*
+!database/.data/.gitkeep
