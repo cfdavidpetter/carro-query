@@ -4,7 +4,13 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     default-libmysqlclient-dev \
     build-essential \
+    curl \
     && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm@10.2.4
 
 WORKDIR /app
 
@@ -13,7 +19,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+ENV PYTHONPATH=/app
+
 EXPOSE 9000
-
-# CMD ["python", "-m", "alembic", "upgrade", "head"]
-
