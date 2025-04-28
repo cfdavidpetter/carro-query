@@ -9,8 +9,6 @@ services:
       - mysql
     volumes:
       - .:/app
-    environment:
-      - DATABASE_URL=mysql://root:root@mysql:3306/carro_query
     ports:
       - "7409:80"
       - "6274:6274"
@@ -29,6 +27,35 @@ services:
       - "7408:3306"
     volumes:
       - ./database/.data/:/var/lib/mysql
+    networks:
+      - carro-query-network
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    volumes:
+      - ./llm/ollama:/root/.ollama
+    pull_policy: always
+    ports:
+      - 11434:11434
+    tty: true
+    networks:
+      - carro-query-network
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    volumes:
+      - ./llm/open-webui:/app/backend/data
+    depends_on:
+      - ollama
+    ports:
+      - 7410:8080
+    environment:
+      - 'OLLAMA_BASE_URL=http://ollama:11434'
+      - 'WEBUI_SECRET_KEY='
+    extra_hosts:
+      - host.docker.internal:host-gateway
     networks:
       - carro-query-network
 

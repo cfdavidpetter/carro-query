@@ -7,3 +7,13 @@ __pycache__/
 # Database
 database/.data/*
 !database/.data/.gitkeep
+
+# LLM
+llm/ollama/*
+!llm/ollama/.gitkeep
+llm/open-webui/*
+!llm/open-webui/.gitkeep
+
+# MCP
+mcp-client/results/*
+!mcp-client/results/.gitkeep

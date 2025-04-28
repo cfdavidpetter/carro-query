@@ -49,7 +49,7 @@ async def count_cars_by_attribute(attribute: str) -> Tuple[Dict[str, Any], int]:
         elif model == Model:
             query = db.query(column, func.count(Car.id)).join(Car).group_by(column)
         elif model == Brand:
-            query = db.query(column, func.count(Car.id)).join(Model).join(Car).group_by(column)
+            query = db.query(column, func.count(Car.id)).select_from(Brand).join(Model).join(Car).group_by(column)
         else:
             return {"error": "Invalid model. Must be one of: Car, Model, Brand"}, 400
 

@@ -21,7 +21,17 @@ cd carro-query
 docker-compose up -d --build
 ```
 
-3. Aguarde todos os containers estarem online e execute o script de boot:
+3. Baixe o modelo de linguagem necessário para o Ollama:
+```bash
+docker exec ollama ollama pull gemma3:1b
+```
+
+4. Aguarde todos os containers estarem online e execute o script de boot:
 ```bash
 docker exec carro-query-app ./setup.sh
+```
+
+5. Iniciar Chat:
+```bash
+docker-compose exec app python mcp-client/client.py
 ```
