@@ -89,11 +89,7 @@ class MCPClient:
                 return f"Desculpe, não consegui encontrar uma ferramenta apropriada para sua pergunta."
 
             result = await self.session.call_tool(tool_name, {})
-            # Convert CallToolResult to dictionary
-            return {
-                "tool_name": tool_name,
-                "result": result.result
-            }
+            return result
 
         except Exception as e:
             return f"Erro ao processar a consulta: {str(e)}"
@@ -128,10 +124,6 @@ async def main():
             response = await client.process_query(user_input)
             print(response)
 
-            # Save response to file
-            timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M')
-            with open(f"mcp-client/results/{timestamp}_{user_input}.json", "w") as f:
-                f.write(response)
     finally:
         await client.cleanup()
 
